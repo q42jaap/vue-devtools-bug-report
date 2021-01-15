@@ -1,24 +1,27 @@
 <script>
-import { onMounted } from 'vue';
-import { useStore } from 'vuex';
-import Header from './components/Header.vue';
-import { provideVersion } from './version';
+
+import {ref} from "vue";
+import Component from "./Component.vue";
 
 export default {
   name: 'App',
-  components: { Header },
+  components: {
+    Component,
+  },
   setup() {
-    const { dispatch } = useStore();
-    provideVersion();
-
-    onMounted(() => {
-      dispatch('onSetYear', new Date().getFullYear());
-    });
+    const toggle1 = ref(false);
+    const toggle2 = ref(true);
+    return {
+      toggle1,
+      toggle2,
+    };
   }
 };
 </script>
 
 <template>
-<Header />
-<router-view />
+  <div><button @click="toggle1 = !toggle1">toggle1 (default false)</button></div>
+  <div>Component (toggle1): <Component v-if="toggle1" key="1"></Component></div>
+  <div><button @click="toggle2 = !toggle2">toggle2 (default true)</button></div>
+  <div>Component (toggle2): <Component v-if="toggle2" key="2"></Component></div>
 </template>
